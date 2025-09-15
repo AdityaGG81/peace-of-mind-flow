@@ -1,69 +1,90 @@
-import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Shield, Heart, Users, BookOpen, ArrowRight, CheckCircle } from 'lucide-react';
-import heroImage from '@/assets/hero-bg.jpg';
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import {
+  Shield,
+  Heart,
+  Users,
+  BookOpen,
+  ArrowRight,
+  CheckCircle,
+} from "lucide-react";
+import heroImage from "@/assets/hero-bg.jpg";
+import { GradualSpacing } from "@/components/ui/GradualSpacing";
+import { LettersPullUp  } from "@/components/ui/letters-pull-up";
+import { TypingEffect   } from "@/components/ui/typing-effect";
+
 
 interface HomeProps {
   onPageChange: (page: string) => void;
 }
 
 export default function Home({ onPageChange }: HomeProps) {
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState("");
   const [isRegistered, setIsRegistered] = useState(false);
-  const [generatedToken, setGeneratedToken] = useState('');
+  const [generatedToken, setGeneratedToken] = useState("");
 
   const handleRegistration = () => {
-    if (email.includes('@') && email.includes('.edu')) {
+    if (email.includes("@") && email.includes(".edu")) {
       // Generate anonymous token (simulated)
-      const token = 'user_' + Math.random().toString(36).substr(2, 8);
+      const token = "user_" + Math.random().toString(36).substr(2, 8);
       setGeneratedToken(token);
       setIsRegistered(true);
-      setEmail(''); // Clear email for privacy
+      setEmail(""); // Clear email for privacy
     }
   };
 
   const features = [
     {
       icon: Shield,
-      title: 'Anonymous & Secure',
-      description: 'Your privacy is our priority. No personal data stored, complete anonymity.',
+      title: "Anonymous & Secure",
+      description:
+        "Your privacy is our priority. No personal data stored, complete anonymity.",
     },
     {
       icon: Heart,
-      title: 'AI-Guided Support',
-      description: 'Get immediate mental health assessment and personalized guidance.',
+      title: "AI-Guided Support",
+      description:
+        "Get immediate mental health assessment and personalized guidance.",
     },
     {
       icon: Users,
-      title: 'Peer Community',
-      description: 'Connect with others in a safe, anonymous support environment.',
+      title: "Peer Community",
+      description:
+        "Connect with others in a safe, anonymous support environment.",
     },
     {
       icon: BookOpen,
-      title: 'Resource Library',
-      description: 'Access self-help materials, videos, and wellness resources.',
+      title: "Resource Library",
+      description:
+        "Access self-help materials, videos, and wellness resources.",
     },
   ];
 
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section 
+      <section
         className="relative py-20 px-4 bg-cover bg-center bg-no-repeat"
         style={{ backgroundImage: `url(${heroImage})` }}
       >
         <div className="absolute inset-0 bg-gradient-hero opacity-90"></div>
         <div className="relative z-10 max-w-4xl mx-auto text-center text-primary-foreground">
-          <h1 className="text-5xl md:text-6xl font-bold mb-6">
-            Digital Psychological
-            <span className="block">Intervention System</span>
+          <h1 className="mb-6 text-3xl sm:text-5xl md:text-6xl font-bold leading-tight">
+            <LettersPullUp  text="Digital Psychological" />
+            <LettersPullUp  text="Intervention System" />
           </h1>
           <p className="text-xl mb-8 opacity-90">
-            Anonymous, secure, and immediate mental health support for students
+            <TypingEffect text="Anonymous, secure, and immediate mental health support for students"/>
           </p>
-          
+
           {!isRegistered ? (
             <Card className="max-w-md mx-auto bg-card/95 backdrop-blur-sm">
               <CardHeader>
@@ -72,7 +93,8 @@ export default function Home({ onPageChange }: HomeProps) {
                   <span>Anonymous Registration</span>
                 </CardTitle>
                 <CardDescription>
-                  Enter your college email. We'll generate an anonymous token for you.
+                  Enter your college email. We'll generate an anonymous token
+                  for you.
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
@@ -82,10 +104,10 @@ export default function Home({ onPageChange }: HomeProps) {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
-                <Button 
+                <Button
                   onClick={handleRegistration}
                   className="w-full"
-                  disabled={!email.includes('@') || !email.includes('.edu')}
+                  disabled={!email.includes("@") || !email.includes(".edu")}
                 >
                   Generate Anonymous Token
                   <ArrowRight className="ml-2 h-4 w-4" />
@@ -98,7 +120,9 @@ export default function Home({ onPageChange }: HomeProps) {
                 <div className="text-center space-y-4">
                   <CheckCircle className="h-12 w-12 text-secondary mx-auto" />
                   <div>
-                    <h3 className="font-semibold text-lg">Registration Complete!</h3>
+                    <h3 className="font-semibold text-lg">
+                      Registration Complete!
+                    </h3>
                     <p className="text-sm text-muted-foreground mb-4">
                       Your anonymous token (save this for login):
                     </p>
@@ -106,7 +130,10 @@ export default function Home({ onPageChange }: HomeProps) {
                       {generatedToken}
                     </div>
                   </div>
-                  <Button onClick={() => onPageChange('chat')} className="w-full">
+                  <Button
+                    onClick={() => onPageChange("chat")}
+                    className="w-full"
+                  >
                     Start AI Assessment
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
@@ -126,18 +153,23 @@ export default function Home({ onPageChange }: HomeProps) {
               Comprehensive mental health support designed with privacy first
             </p>
           </div>
-          
+
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {features.map((feature, index) => {
               const Icon = feature.icon;
               return (
-                <Card key={index} className="text-center shadow-card hover:shadow-elevated transition-shadow">
+                <Card
+                  key={index}
+                  className="text-center shadow-card hover:shadow-elevated transition-shadow"
+                >
                   <CardContent className="pt-6">
                     <div className="w-12 h-12 bg-gradient-primary rounded-lg flex items-center justify-center mx-auto mb-4">
                       <Icon className="h-6 w-6 text-primary-foreground" />
                     </div>
                     <h3 className="font-semibold mb-2">{feature.title}</h3>
-                    <p className="text-sm text-muted-foreground">{feature.description}</p>
+                    <p className="text-sm text-muted-foreground">
+                      {feature.description}
+                    </p>
                   </CardContent>
                 </Card>
               );
@@ -151,35 +183,39 @@ export default function Home({ onPageChange }: HomeProps) {
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl font-bold mb-8">Need Help Right Now?</h2>
           <div className="grid md:grid-cols-3 gap-4">
-            <Button 
-              size="lg" 
-              onClick={() => onPageChange('chat')}
+            <Button
+              size="lg"
+              onClick={() => onPageChange("chat")}
               className="h-auto p-6 flex-col space-y-2"
             >
               <Shield className="h-8 w-8" />
               <div>
                 <div className="font-semibold">AI Assessment</div>
-                <div className="text-sm opacity-80">Quick mental health check</div>
+                <div className="text-sm opacity-80">
+                  Quick mental health check
+                </div>
               </div>
             </Button>
-            
-            <Button 
-              size="lg" 
+
+            <Button
+              size="lg"
               variant="secondary"
-              onClick={() => onPageChange('resources')}
+              onClick={() => onPageChange("resources")}
               className="h-auto p-6 flex-col space-y-2"
             >
               <BookOpen className="h-8 w-8" />
               <div>
                 <div className="font-semibold">Self-Help Resources</div>
-                <div className="text-sm opacity-80">Immediate wellness tools</div>
+                <div className="text-sm opacity-80">
+                  Immediate wellness tools
+                </div>
               </div>
             </Button>
-            
-            <Button 
-              size="lg" 
+
+            <Button
+              size="lg"
               variant="outline"
-              onClick={() => onPageChange('booking')}
+              onClick={() => onPageChange("booking")}
               className="h-auto p-6 flex-col space-y-2 border-accent text-accent hover:bg-accent hover:text-accent-foreground"
             >
               <Users className="h-8 w-8" />

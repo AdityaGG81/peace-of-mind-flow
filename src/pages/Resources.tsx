@@ -364,7 +364,7 @@ export default function Resources() {
             </p>
             <div className="space-y-2 text-sm">
               <p>
-                <strong>Crisis Hotline:</strong> 988 (24/7 Support)
+                <strong>Crisis Hotline:</strong> +919999666555 (24/7 Support)
               </p>
               <p>
                 <strong>Campus Counseling:</strong> Available through our

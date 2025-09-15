@@ -230,8 +230,8 @@ export default function Forum() {
               If you're in crisis or having thoughts of self-harm, please reach out for immediate help.
             </p>
             <div className="space-y-2 text-sm">
-              <p><strong>Crisis Hotline:</strong> 988 (24/7 Support)</p>
-              <p><strong>Campus Emergency:</strong> Call your campus security or 911</p>
+              <p><strong>Crisis Hotline:</strong> +919999666555 (24/7 Support)</p>
+              <p><strong>Campus Emergency:</strong> Call your campus security</p>
             </div>
           </CardContent>
         </Card>

@@ -118,9 +118,9 @@ export default function Booking() {
                 If this is a mental health emergency, please contact:
               </p>
               <div className="space-y-1 text-sm">
-                <p><strong>Crisis Hotline:</strong> 988 or 1-800-273-8255</p>
-                <p><strong>Emergency Services:</strong> 911</p>
-                <p><strong>Campus Security:</strong> [Your campus emergency number]</p>
+                <p><strong>Crisis Hotline:</strong> +919999666555</p>
+                <p><strong>Emergency Services:</strong> 112</p>
+                <p><strong>Campus Security:</strong> [Our campus emergency number]</p>
               </div>
             </CardContent>
           </Card>
@@ -303,9 +303,9 @@ export default function Booking() {
               If you're having thoughts of self-harm or this is an emergency, please get immediate help:
             </p>
             <div className="space-y-1 text-sm">
-              <p><strong>Crisis Hotline:</strong> 988 (24/7 Support)</p>
-              <p><strong>Emergency Services:</strong> 911</p>
-              <p><strong>Campus Security:</strong> [Your campus emergency number]</p>
+              <p><strong>Crisis Hotline:</strong> +919999666555 (24/7 Support)</p>
+              <p><strong>Emergency Services:</strong> 112</p>
+              <p><strong>Campus Security:</strong> [Our campus emergency number]</p>
             </div>
           </CardContent>
         </Card>
