@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Slider } from '@/components/ui/slider';
@@ -9,7 +9,7 @@ interface AudioTrack {
   title: string;
   description: string;
   duration: string;
-  url: string; // In a real app, this would be the audio file URL
+  url: string;
   category: string;
 }
 
@@ -26,62 +26,59 @@ export const AudioPlayer = ({ tracks, currentTrackIndex, onTrackChange, onClose 
   const [duration, setDuration] = useState(0);
   const [volume, setVolume] = useState(70);
   const [isMuted, setIsMuted] = useState(false);
-  
+
   const audioRef = useRef<HTMLAudioElement>(null);
   const currentTrack = tracks[currentTrackIndex];
 
-  // Simulate audio functionality with demo data
-  useEffect(() => {
-    // In a real app, you'd load the actual audio file
-    setDuration(180); // 3 minutes as demo duration
-    setCurrentTime(0);
-  }, [currentTrackIndex]);
-
-  useEffect(() => {
-    let interval: NodeJS.Timeout;
-    
-    if (isPlaying) {
-      interval = setInterval(() => {
-        setCurrentTime(prev => {
-          if (prev >= duration) {
-            setIsPlaying(false);
-            handleNext();
-            return 0;
-          }
-          return prev + 1;
-        });
-      }, 1000);
-    }
-
-    return () => clearInterval(interval);
-  }, [isPlaying, duration]);
-
   const handlePlayPause = () => {
+    if (!audioRef.current) return;
+    if (isPlaying) {
+      audioRef.current.pause();
+    } else {
+      audioRef.current.play();
+    }
     setIsPlaying(!isPlaying);
   };
 
   const handleNext = () => {
     const nextIndex = currentTrackIndex < tracks.length - 1 ? currentTrackIndex + 1 : 0;
     onTrackChange(nextIndex);
-    setCurrentTime(0);
+    if (audioRef.current) {
+      audioRef.current.load();
+      audioRef.current.play();
+    }
+    setIsPlaying(true);
   };
 
   const handlePrevious = () => {
     const prevIndex = currentTrackIndex > 0 ? currentTrackIndex - 1 : tracks.length - 1;
     onTrackChange(prevIndex);
-    setCurrentTime(0);
+    if (audioRef.current) {
+      audioRef.current.load();
+      audioRef.current.play();
+    }
+    setIsPlaying(true);
   };
 
   const handleSeek = (value: number[]) => {
+    if (audioRef.current) {
+      audioRef.current.currentTime = value[0];
+    }
     setCurrentTime(value[0]);
   };
 
   const handleVolumeChange = (value: number[]) => {
+    if (audioRef.current) {
+      audioRef.current.volume = value[0] / 100;
+    }
     setVolume(value[0]);
     setIsMuted(false);
   };
 
   const handleMuteToggle = () => {
+    if (audioRef.current) {
+      audioRef.current.muted = !isMuted;
+    }
     setIsMuted(!isMuted);
   };
 
@@ -95,6 +92,15 @@ export const AudioPlayer = ({ tracks, currentTrackIndex, onTrackChange, onClose 
     <div className="fixed inset-0 bg-background/95 backdrop-blur-sm z-50 flex items-center justify-center p-4">
       <Card className="w-full max-w-md shadow-elevated">
         <CardContent className="p-6 space-y-6">
+          {/* Hidden audio element */}
+          <audio
+            ref={audioRef}
+            src={currentTrack.url}
+            onTimeUpdate={() => setCurrentTime(audioRef.current?.currentTime || 0)}
+            onLoadedMetadata={() => setDuration(audioRef.current?.duration || 0)}
+            onEnded={handleNext}
+          />
+
           {/* Track Info */}
           <div className="text-center space-y-2">
             <div className="w-20 h-20 bg-gradient-accent rounded-full flex items-center justify-center mx-auto mb-4">

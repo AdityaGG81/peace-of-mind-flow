@@ -48,31 +48,31 @@ export default function Resources() {
       id: "nature1",
       title: "Calming Nature Sounds",
       description: "Forest rain and gentle streams for relaxation",
-      duration: "30 min",
+      duration: "9 min 53 sec",
       category: "Ambient",
       url: "/audio/nature-sounds.mp3" // Demo URL
     },
     {
       id: "meditation1", 
-      title: "Guided Meditation - Anxiety",
+      title: "Guided Meditation - Marathi",
       description: "Specific meditation for anxiety management",
-      duration: "20 min",
+      duration: "10 min 39 sec",
       category: "Meditation",
       url: "/audio/anxiety-meditation.mp3" // Demo URL
     },
     {
       id: "affirmations1",
-      title: "Positive Affirmations",
+      title: "Positive Affirmations - Hindi",
       description: "Daily affirmations for self-confidence",
-      duration: "8 min",
+      duration: "6 min 10 sec",
       category: "Self-Care",
       url: "/audio/positive-affirmations.mp3" // Demo URL
     },
     {
       id: "sleep1",
-      title: "Sleep Stories",
+      title: "Sleep Stories - Marathi",
       description: "Gentle stories to help you fall asleep",
-      duration: "45 min",
+      duration: "29 min 51 sec",
       category: "Sleep",
       url: "/audio/sleep-stories.mp3" // Demo URL
     },
@@ -80,7 +80,7 @@ export default function Resources() {
       id: "focus1",
       title: "Focus Music",
       description: "Instrumental music for concentration",
-      duration: "60 min", 
+      duration: "10 min 35 sec", 
       category: "Focus",
       url: "/audio/focus-music.mp3" // Demo URL
     }
