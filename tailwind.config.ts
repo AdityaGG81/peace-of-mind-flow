@@ -22,10 +22,12 @@ export default {
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
+          soft: "hsl(var(--primary-soft))",
         },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
           foreground: "hsl(var(--secondary-foreground))",
+          soft: "hsl(var(--secondary-soft))",
         },
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
@@ -38,6 +40,12 @@ export default {
         accent: {
           DEFAULT: "hsl(var(--accent))",
           foreground: "hsl(var(--accent-foreground))",
+          soft: "hsl(var(--accent-soft))",
+        },
+        warning: {
+          DEFAULT: "hsl(var(--warning))",
+          foreground: "hsl(var(--warning-foreground))",
+          soft: "hsl(var(--warning-soft))",
         },
         popover: {
           DEFAULT: "hsl(var(--popover))",
@@ -62,6 +70,17 @@ export default {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+      },
+      backgroundImage: {
+        "gradient-primary": "var(--gradient-primary)",
+        "gradient-secondary": "var(--gradient-secondary)",
+        "gradient-accent": "var(--gradient-accent)",
+        "gradient-hero": "var(--gradient-hero)",
+      },
+      boxShadow: {
+        soft: "var(--shadow-soft)",
+        card: "var(--shadow-card)",
+        elevated: "var(--shadow-elevated)",
       },
       keyframes: {
         "accordion-down": {
