@@ -1,9 +1,17 @@
+import { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Play, FileText, Headphones, Heart, Brain, Moon, Smile } from 'lucide-react';
+import { Play, FileText, Headphones, Heart, Brain, Moon, Smile, Timer, Volume2 } from 'lucide-react';
+import { BreathingExercise } from '@/components/resources/BreathingExercise';
+import { ConcentrationTechnique } from '@/components/resources/ConcentrationTechnique';
+import { AudioPlayer } from '@/components/resources/AudioPlayer';
+import { RelaxationActivity } from '@/components/resources/RelaxationActivity';
 
 export default function Resources() {
+  const [activeExercise, setActiveExercise] = useState<string | null>(null);
+  const [currentAudioTrack, setCurrentAudioTrack] = useState(0);
+
   const videoResources = [
     {
       title: "5-Minute Breathing Exercise",
@@ -37,23 +45,45 @@ export default function Resources() {
 
   const audioResources = [
     {
+      id: "nature1",
       title: "Calming Nature Sounds",
       description: "Forest rain and gentle streams for relaxation",
       duration: "30 min",
       category: "Ambient",
+      url: "/audio/nature-sounds.mp3" // Demo URL
     },
     {
+      id: "meditation1", 
       title: "Guided Meditation - Anxiety",
       description: "Specific meditation for anxiety management",
       duration: "20 min",
       category: "Meditation",
+      url: "/audio/anxiety-meditation.mp3" // Demo URL
     },
     {
+      id: "affirmations1",
       title: "Positive Affirmations",
       description: "Daily affirmations for self-confidence",
       duration: "8 min",
       category: "Self-Care",
+      url: "/audio/positive-affirmations.mp3" // Demo URL
     },
+    {
+      id: "sleep1",
+      title: "Sleep Stories",
+      description: "Gentle stories to help you fall asleep",
+      duration: "45 min",
+      category: "Sleep",
+      url: "/audio/sleep-stories.mp3" // Demo URL
+    },
+    {
+      id: "focus1",
+      title: "Focus Music",
+      description: "Instrumental music for concentration",
+      duration: "60 min", 
+      category: "Focus",
+      url: "/audio/focus-music.mp3" // Demo URL
+    }
   ];
 
   const articles = [
@@ -123,7 +153,14 @@ export default function Resources() {
               <p className="text-sm text-muted-foreground mb-4">
                 Quick breathing exercises and calming techniques
               </p>
-              <Button size="sm" className="w-full">Start Now</Button>
+              <Button 
+                size="sm" 
+                className="w-full"
+                onClick={() => setActiveExercise('breathing')}
+              >
+                <Timer className="h-3 w-3 mr-2" />
+                Start Now
+              </Button>
             </CardContent>
           </Card>
 
@@ -136,7 +173,15 @@ export default function Resources() {
               <p className="text-sm text-muted-foreground mb-4">
                 Mindfulness and concentration techniques
               </p>
-              <Button size="sm" variant="secondary" className="w-full">Explore</Button>
+              <Button 
+                size="sm" 
+                variant="secondary" 
+                className="w-full"
+                onClick={() => setActiveExercise('concentration')}
+              >
+                <Brain className="h-3 w-3 mr-2" />
+                Explore
+              </Button>
             </CardContent>
           </Card>
 
@@ -149,7 +194,13 @@ export default function Resources() {
               <p className="text-sm text-muted-foreground mb-4">
                 Sleep hygiene and relaxation practices
               </p>
-              <Button size="sm" variant="outline" className="w-full border-accent text-accent hover:bg-accent hover:text-accent-foreground">
+              <Button 
+                size="sm" 
+                variant="outline" 
+                className="w-full border-accent text-accent hover:bg-accent hover:text-accent-foreground"
+                onClick={() => setActiveExercise('relaxation')}
+              >
+                <Smile className="h-3 w-3 mr-2" />
                 Learn More
               </Button>
             </CardContent>
@@ -180,9 +231,17 @@ export default function Resources() {
                     <p className="text-xs text-muted-foreground mb-3">{video.description}</p>
                     <div className="flex items-center justify-between">
                       <span className="text-xs text-muted-foreground">{video.duration}</span>
-                      <Button size="sm" variant="ghost" className="h-8 px-3">
-                        <Play className="h-3 w-3" />
-                      </Button>
+                    <Button 
+                      size="sm" 
+                      variant="ghost" 
+                      className="h-8 px-3"
+                      onClick={() => {
+                        // In a real app, this would open the video player
+                        alert(`Playing: ${video.title}\n\nThis is a demo. In a real app, this would open a video player with the actual content.`);
+                      }}
+                    >
+                      <Play className="h-3 w-3" />
+                    </Button>
                     </div>
                   </CardContent>
                 </Card>
@@ -213,8 +272,16 @@ export default function Resources() {
                   <p className="text-xs text-muted-foreground mb-3">{audio.description}</p>
                   <div className="flex items-center justify-between">
                     <span className="text-xs text-muted-foreground">{audio.duration}</span>
-                    <Button size="sm" variant="ghost" className="h-8 px-3">
-                      <Play className="h-3 w-3" />
+                    <Button 
+                      size="sm" 
+                      variant="ghost" 
+                      className="h-8 px-3"
+                      onClick={() => {
+                        setCurrentAudioTrack(index);
+                        setActiveExercise('audio');
+                      }}
+                    >
+                      <Volume2 className="h-3 w-3" />
                     </Button>
                   </div>
                 </CardContent>
@@ -260,6 +327,28 @@ export default function Resources() {
             </div>
           </CardContent>
         </Card>
+
+        {/* Interactive Components */}
+        {activeExercise === 'breathing' && (
+          <BreathingExercise onClose={() => setActiveExercise(null)} />
+        )}
+        
+        {activeExercise === 'concentration' && (
+          <ConcentrationTechnique onClose={() => setActiveExercise(null)} />
+        )}
+        
+        {activeExercise === 'audio' && (
+          <AudioPlayer 
+            tracks={audioResources}
+            currentTrackIndex={currentAudioTrack}
+            onTrackChange={setCurrentAudioTrack}
+            onClose={() => setActiveExercise(null)}
+          />
+        )}
+        
+        {activeExercise === 'relaxation' && (
+          <RelaxationActivity onClose={() => setActiveExercise(null)} />
+        )}
       </div>
     </div>
   );
