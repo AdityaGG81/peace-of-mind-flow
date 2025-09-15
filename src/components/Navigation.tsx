@@ -28,7 +28,7 @@ export default function Navigation({ currentPage, onPageChange }: NavigationProp
             <div className="w-8 h-8 bg-gradient-primary rounded-lg flex items-center justify-center">
               <Heart className="h-5 w-5 text-primary-foreground" />
             </div>
-            <span className="text-xl font-bold text-foreground">DPIS</span>
+            <span className="text-xl font-bold text-foreground">MindMate</span>
           </div>
 
           {/* Desktop Navigation */}

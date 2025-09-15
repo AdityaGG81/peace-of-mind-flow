@@ -121,7 +121,7 @@ export default function Home({ onPageChange }: HomeProps) {
       <section className="py-16 px-4 bg-background">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4">How DPIS Helps You</h2>
+            <h2 className="text-3xl font-bold mb-4">How MindMate Helps You</h2>
             <p className="text-lg text-muted-foreground">
               Comprehensive mental health support designed with privacy first
             </p>
