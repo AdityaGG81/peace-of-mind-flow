@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Slider } from '@/components/ui/slider';
@@ -30,34 +30,49 @@ export const AudioPlayer = ({ tracks, currentTrackIndex, onTrackChange, onClose 
   const audioRef = useRef<HTMLAudioElement>(null);
   const currentTrack = tracks[currentTrackIndex];
 
+  // 🎯 When track changes, load & auto-play
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.load();
+      audioRef.current.play();
+      setIsPlaying(true);
+    }
+  }, [currentTrackIndex]);
+
+  // 🎯 Keep isPlaying in sync with the actual audio element
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    const handlePlay = () => setIsPlaying(true);
+    const handlePause = () => setIsPlaying(false);
+
+    audio.addEventListener("play", handlePlay);
+    audio.addEventListener("pause", handlePause);
+
+    return () => {
+      audio.removeEventListener("play", handlePlay);
+      audio.removeEventListener("pause", handlePause);
+    };
+  }, []);
+
   const handlePlayPause = () => {
     if (!audioRef.current) return;
-    if (isPlaying) {
-      audioRef.current.pause();
-    } else {
+    if (audioRef.current.paused) {
       audioRef.current.play();
+    } else {
+      audioRef.current.pause();
     }
-    setIsPlaying(!isPlaying);
   };
 
   const handleNext = () => {
     const nextIndex = currentTrackIndex < tracks.length - 1 ? currentTrackIndex + 1 : 0;
     onTrackChange(nextIndex);
-    if (audioRef.current) {
-      audioRef.current.load();
-      audioRef.current.play();
-    }
-    setIsPlaying(true);
   };
 
   const handlePrevious = () => {
     const prevIndex = currentTrackIndex > 0 ? currentTrackIndex - 1 : tracks.length - 1;
     onTrackChange(prevIndex);
-    if (audioRef.current) {
-      audioRef.current.load();
-      audioRef.current.play();
-    }
-    setIsPlaying(true);
   };
 
   const handleSeek = (value: number[]) => {
