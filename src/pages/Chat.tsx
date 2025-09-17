@@ -241,7 +241,7 @@ export default function Chat({ onPageChange }: ChatProps) {
         {/* Question Card */}
         <Card className="shadow-elevated">
           <CardHeader>
-            <div className="flex items-start space-x-3">
+            <div className="flex items-start space-x-3 ">
               <div className="w-8 h-8 bg-gradient-primary rounded-full flex items-center justify-center flex-shrink-0">
                 <Bot className="h-4 w-4 text-primary-foreground" />
               </div>
@@ -261,7 +261,7 @@ export default function Chat({ onPageChange }: ChatProps) {
                 key={index}
                 variant="outline"
                 size="lg"
-                className="w-full justify-start text-left h-auto py-4 px-6 hover:border-primary hover:bg-primary/5"
+                className="w-full justify-start text-left h-auto py-4 px-6 hover:border-primary hover:bg-primary/5 hover:text-primary"
                 onClick={() => handleResponse(option.value)}
               >
                 <div className="flex items-center space-x-3">
