@@ -27,7 +27,7 @@ interface HomeProps {
 }
 
 export default function Home({ onPageChange }: HomeProps) {
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState("your-email@college.edu");
   const [isRegistered, setIsRegistered] = useState(false);
   const [generatedToken, setGeneratedToken] = useState("");
 
