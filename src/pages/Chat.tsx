@@ -1,9 +1,24 @@
-import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Progress } from '@/components/ui/progress';
-import { Bot, User, ArrowRight, AlertTriangle, BookOpen, Users, Calendar } from 'lucide-react';
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Progress } from "@/components/ui/progress";
+import {
+  Bot,
+  User,
+  ArrowRight,
+  AlertTriangle,
+  BookOpen,
+  Users,
+  Calendar,
+} from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface ChatProps {
   onPageChange: (page: string) => void;
@@ -33,7 +48,8 @@ export default function Chat({ onPageChange }: ChatProps) {
   const [isCompleted, setIsCompleted] = useState(false);
   const [riskLevel, setRiskLevel] = useState(0);
   const [showRecommendations, setShowRecommendations] = useState(false);
-  
+  const [selectedIndex, setSelectedIndex] = useState(null);
+
   const progress = ((currentQuestion + 1) / questions.length) * 100;
 
   const handleResponse = (value: number) => {
@@ -59,13 +75,15 @@ export default function Chat({ onPageChange }: ChatProps) {
         return {
           label: "Minimal Risk",
           color: "bg-secondary text-secondary-foreground",
-          description: "You're doing well! Consider exploring our wellness resources.",
+          description:
+            "You're doing well! Consider exploring our wellness resources.",
         };
       case 2:
         return {
           label: "Mild Concern",
           color: "bg-warning text-warning-foreground",
-          description: "Some stress detected. Self-help resources might be beneficial.",
+          description:
+            "Some stress detected. Self-help resources might be beneficial.",
         };
       case 3:
       case 4:
@@ -78,13 +96,15 @@ export default function Chat({ onPageChange }: ChatProps) {
         return {
           label: "High Risk",
           color: "bg-destructive text-destructive-foreground",
-          description: "Immediate support recommended. We'll help you book a counselor.",
+          description:
+            "Immediate support recommended. We'll help you book a counselor.",
         };
       default:
         return {
           label: "Assessment Pending",
           color: "bg-muted text-muted-foreground",
-          description: "Complete the assessment to get personalized recommendations.",
+          description:
+            "Complete the assessment to get personalized recommendations.",
         };
     }
   };
@@ -119,18 +139,24 @@ export default function Chat({ onPageChange }: ChatProps) {
           {/* Recommendations */}
           {showRecommendations && (
             <div className="space-y-4 animate-in slide-in-from-bottom duration-500">
-              <h2 className="text-xl font-semibold text-center mb-6">Recommended Next Steps</h2>
-              
+              <h2 className="text-xl font-semibold text-center mb-6">
+                Recommended Next Steps
+              </h2>
+
               {/* Level 0-2: Resources */}
               {riskLevel <= 2 && (
-                <Card className="shadow-card hover:shadow-elevated transition-shadow cursor-pointer" 
-                      onClick={() => onPageChange('resources')}>
+                <Card
+                  className="shadow-card hover:shadow-elevated transition-shadow cursor-pointer"
+                  onClick={() => onPageChange("resources")}
+                >
                   <CardContent className="p-6 flex items-center space-x-4">
                     <div className="w-12 h-12 bg-gradient-secondary rounded-lg flex items-center justify-center">
                       <BookOpen className="h-6 w-6 text-secondary-foreground" />
                     </div>
                     <div className="flex-1">
-                      <h3 className="font-semibold">Explore Wellness Resources</h3>
+                      <h3 className="font-semibold">
+                        Explore Wellness Resources
+                      </h3>
                       <p className="text-sm text-muted-foreground">
                         Self-help videos, relaxation guides, and wellness tools
                       </p>
@@ -143,43 +169,57 @@ export default function Chat({ onPageChange }: ChatProps) {
               {/* Level 3-4: Resources + Forum + Counselor */}
               {riskLevel >= 3 && riskLevel <= 4 && (
                 <>
-                  <Card className="shadow-card hover:shadow-elevated transition-shadow cursor-pointer" 
-                        onClick={() => onPageChange('resources')}>
+                  <Card
+                    className="shadow-card hover:shadow-elevated transition-shadow cursor-pointer"
+                    onClick={() => onPageChange("resources")}
+                  >
                     <CardContent className="p-6 flex items-center space-x-4">
                       <div className="w-12 h-12 bg-gradient-secondary rounded-lg flex items-center justify-center">
                         <BookOpen className="h-6 w-6 text-secondary-foreground" />
                       </div>
                       <div className="flex-1">
                         <h3 className="font-semibold">Wellness Resources</h3>
-                        <p className="text-sm text-muted-foreground">Self-help materials and coping strategies</p>
+                        <p className="text-sm text-muted-foreground">
+                          Self-help materials and coping strategies
+                        </p>
                       </div>
                       <ArrowRight className="h-5 w-5 text-muted-foreground" />
                     </CardContent>
                   </Card>
 
-                  <Card className="shadow-card hover:shadow-elevated transition-shadow cursor-pointer" 
-                        onClick={() => onPageChange('forum')}>
+                  <Card
+                    className="shadow-card hover:shadow-elevated transition-shadow cursor-pointer"
+                    onClick={() => onPageChange("forum")}
+                  >
                     <CardContent className="p-6 flex items-center space-x-4">
                       <div className="w-12 h-12 bg-gradient-accent rounded-lg flex items-center justify-center">
                         <Users className="h-6 w-6 text-accent-foreground" />
                       </div>
                       <div className="flex-1">
                         <h3 className="font-semibold">Peer Support Forum</h3>
-                        <p className="text-sm text-muted-foreground">Connect with others in a safe environment</p>
+                        <p className="text-sm text-muted-foreground">
+                          Connect with others in a safe environment
+                        </p>
                       </div>
                       <ArrowRight className="h-5 w-5 text-muted-foreground" />
                     </CardContent>
                   </Card>
 
-                  <Card className="shadow-card hover:shadow-elevated transition-shadow cursor-pointer" 
-                        onClick={() => onPageChange('booking')}>
+                  <Card
+                    className="shadow-card hover:shadow-elevated transition-shadow cursor-pointer"
+                    onClick={() => onPageChange("booking")}
+                  >
                     <CardContent className="p-6 flex items-center space-x-4">
                       <div className="w-12 h-12 bg-gradient-primary rounded-lg flex items-center justify-center">
                         <Calendar className="h-6 w-6 text-primary-foreground" />
                       </div>
                       <div className="flex-1">
-                        <h3 className="font-semibold">Schedule Counselor Session</h3>
-                        <p className="text-sm text-muted-foreground">Professional support when you're ready</p>
+                        <h3 className="font-semibold">
+                          Schedule Counselor Session
+                        </h3>
+                        <p className="text-sm text-muted-foreground">
+                          Professional support when you're ready
+                        </p>
                       </div>
                       <ArrowRight className="h-5 w-5 text-muted-foreground" />
                     </CardContent>
@@ -196,14 +236,17 @@ export default function Chat({ onPageChange }: ChatProps) {
                         <AlertTriangle className="h-6 w-6 text-destructive-foreground" />
                       </div>
                       <div className="flex-1">
-                        <h3 className="font-semibold text-destructive">Immediate Support Recommended</h3>
+                        <h3 className="font-semibold text-destructive">
+                          Immediate Support Recommended
+                        </h3>
                         <p className="text-sm text-muted-foreground mb-4">
-                          Your responses indicate you may benefit from immediate professional support.
+                          Your responses indicate you may benefit from immediate
+                          professional support.
                         </p>
-                        <Button 
-                          size="lg" 
+                        <Button
+                          size="lg"
                           className="w-full"
-                          onClick={() => onPageChange('booking')}
+                          onClick={() => onPageChange("booking")}
                         >
                           Connect with a Counselor Now
                           <ArrowRight className="ml-2 h-4 w-4" />
@@ -231,7 +274,9 @@ export default function Chat({ onPageChange }: ChatProps) {
           </div>
           <div className="space-y-2">
             <div className="flex justify-between text-sm text-muted-foreground">
-              <span>Question {currentQuestion + 1} of {questions.length}</span>
+              <span>
+                Question {currentQuestion + 1} of {questions.length}
+              </span>
               <span>{Math.round(progress)}% complete</span>
             </div>
             <Progress value={progress} className="h-2" />
@@ -245,14 +290,24 @@ export default function Chat({ onPageChange }: ChatProps) {
               <div className="w-8 h-8 bg-gradient-primary rounded-full flex items-center justify-center flex-shrink-0">
                 <Bot className="h-4 w-4 text-primary-foreground" />
               </div>
-              <div>
-                <CardTitle className="text-lg leading-relaxed">
-                  {questions[currentQuestion]}
-                </CardTitle>
-                <CardDescription className="mt-2">
-                  Please select the option that best describes your experience over the past 2 weeks.
-                </CardDescription>
-              </div>
+
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={currentQuestion} // ensures animation on change
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.4 }}
+                >
+                  <CardTitle className="text-lg leading-relaxed">
+                    {questions[currentQuestion]}
+                  </CardTitle>
+                  <CardDescription className="mt-2">
+                    Please select the option that best describes your experience
+                    over the past 2 weeks.
+                  </CardDescription>
+                </motion.div>
+              </AnimatePresence>
             </div>
           </CardHeader>
           <CardContent className="space-y-3">
@@ -261,7 +316,10 @@ export default function Chat({ onPageChange }: ChatProps) {
                 key={index}
                 variant="outline"
                 size="lg"
-                className="w-full justify-start text-left h-auto py-4 px-6 hover:border-primary hover:bg-primary/5 hover:text-primary"
+                className="w-full justify-start text-left h-auto py-4 px-6
+    hover:border-primary hover:bg-primary/5 hover:text-primary
+    active:bg-primary active:text-primary-foreground active:border-primary
+    transition-colors duration-200"
                 onClick={() => handleResponse(option.value)}
               >
                 <div className="flex items-center space-x-3">
@@ -275,7 +333,10 @@ export default function Chat({ onPageChange }: ChatProps) {
 
         {/* Privacy Notice */}
         <div className="mt-6 text-center text-sm text-muted-foreground">
-          <p>🔒 Your responses are anonymous and secure. No personal information is stored.</p>
+          <p>
+            🔒 Your responses are anonymous and secure. No personal information
+            is stored.
+          </p>
         </div>
       </div>
     </div>
