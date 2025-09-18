@@ -23,10 +23,14 @@ import { BreathingExercise } from "@/components/resources/BreathingExercise";
 import { ConcentrationTechnique } from "@/components/resources/ConcentrationTechnique";
 import { AudioPlayer } from "@/components/resources/AudioPlayer";
 import { RelaxationActivity } from "@/components/resources/RelaxationActivity";
+import VideoPlayer from "@/components/resources/VideoPlayer";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { url } from "inspector";
 
 export default function Resources() {
   const [activeExercise, setActiveExercise] = useState<string | null>(null);
   const [currentAudioTrack, setCurrentAudioTrack] = useState(0);
+  const [selectedVideo, setSelectedVideo] = useState<any>(null);
 
   const videoResources = [
     {
@@ -35,6 +39,7 @@ export default function Resources() {
       duration: "5 min",
       category: "Stress Relief",
       icon: Heart,
+      url: "https://www.youtube.com/embed/ExwkKMoa2VE",
     },
     {
       title: "Progressive Muscle Relaxation",
@@ -42,6 +47,7 @@ export default function Resources() {
       duration: "15 min",
       category: "Relaxation",
       icon: Brain,
+	  url: "https://www.youtube.com/embed/SNqYG95j_UQ"
     },
     {
       title: "Mindfulness for Beginners",
@@ -49,13 +55,15 @@ export default function Resources() {
       duration: "10 min",
       category: "Mindfulness",
       icon: Smile,
+	  url: "https://www.youtube.com/embed/HjfQ_0eN3Zc"
     },
     {
       title: "Sleep Preparation Routine",
       description: "Wind down techniques for better sleep quality",
-      duration: "12 min",
+      duration: "10 min",
       category: "Sleep",
       icon: Moon,
+	  url: "https://www.youtube.com/embed/_3fvhTO3pLM"
     },
   ];
 
@@ -108,12 +116,14 @@ export default function Resources() {
       description: "Learn about common anxiety triggers and coping strategies",
       readTime: "8 min read",
       category: "Education",
+	  url: "https://www.sondermind.com/resources/articles-and-content/anxiety-in-college-students/"
     },
     {
       title: "Building Healthy Study Habits",
       description: "Strategies to reduce academic stress and improve focus",
       readTime: "6 min read",
       category: "Academic",
+	  url: "https://learningcenter.unc.edu/tips-and-tools/studying-101-study-smarter-not-harder/"
     },
     {
       title: "Social Connection and Mental Health",
@@ -121,12 +131,14 @@ export default function Resources() {
         "The importance of relationships for psychological wellbeing",
       readTime: "10 min read",
       category: "Social",
+	  url: "https://www.who.int/news/item/30-06-2025-social-connection-linked-to-improved-heath-and-reduced-risk-of-early-death"
     },
     {
       title: "Recognizing Depression Warning Signs",
       description: "Early indicators and when to seek professional help",
       readTime: "12 min read",
       category: "Health",
+	  url: "https://www.helpguide.org/mental-health/depression/depression-symptoms-and-warning-signs"
     },
   ];
 
@@ -230,6 +242,7 @@ export default function Resources() {
             <Play className="h-6 w-6 mr-2 text-primary" />
             Video Guides
           </h2>
+
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
             {videoResources.map((video, index) => {
               const Icon = video.icon;
@@ -237,12 +250,7 @@ export default function Resources() {
                 <Card
                   key={index}
                   className="shadow-card hover:shadow-elevated transition-shadow cursor-pointer"
-                  onClick={() => {
-                    // In a real app, open video player here
-                    alert(
-                      `Playing: ${video.title}\n\nThis is a demo. In a real app, this would open a video player with the actual content.`
-                    );
-                  }}
+                  onClick={() => setSelectedVideo(video)}
                 >
                   <CardContent className="p-4">
                     <div className="flex items-start justify-between mb-3">
@@ -274,6 +282,21 @@ export default function Resources() {
               );
             })}
           </div>
+
+          {/* Video Player Modal */}
+          <Dialog
+            open={!!selectedVideo}
+            onOpenChange={() => setSelectedVideo(null)}
+          >
+            <DialogContent className="max-w-3xl p-0 overflow-hidden">
+              {selectedVideo && (
+                <VideoPlayer
+                  url={selectedVideo.url}
+                  title={selectedVideo.title}
+                />
+              )}
+            </DialogContent>
+          </Dialog>
         </section>
 
         {/* Audio Resources */}
@@ -320,39 +343,39 @@ export default function Resources() {
         </section>
 
         {/* Articles */}
-        <section>
-          <h2 className="text-2xl font-semibold mb-6 flex items-center">
-            <FileText className="h-6 w-6 mr-2 text-accent" />
-            Articles & Guides
-          </h2>
-          <div className="grid md:grid-cols-2 gap-4">
-            {articles.map((article, index) => (
-              <Card
-                key={index}
-                className="shadow-card hover:shadow-elevated transition-shadow cursor-pointer"
-              >
-                <CardContent className="p-6">
-                  <div className="flex items-start justify-between mb-3">
-                    <Badge
-                      className={`text-xs ${getCategoryColor(
-                        article.category
-                      )}`}
-                    >
-                      {article.category}
-                    </Badge>
-                    <span className="text-xs text-muted-foreground">
-                      {article.readTime}
-                    </span>
-                  </div>
-                  <h3 className="font-semibold mb-2">{article.title}</h3>
-                  <p className="text-sm text-muted-foreground">
-                    {article.description}
-                  </p>
-                </CardContent>
-              </Card>
-            ))}
+<section>
+  <h2 className="text-2xl font-semibold mb-6 flex items-center">
+    <FileText className="h-6 w-6 mr-2 text-accent" />
+    Articles & Guides
+  </h2>
+  <div className="grid md:grid-cols-2 gap-4">
+    {articles.map((article, index) => (
+      <Card
+        key={index}
+        className="shadow-card hover:shadow-elevated transition-shadow cursor-pointer"
+        onClick={() => window.open(article.url, "_blank")} // 👈 opens in new tab
+      >
+        <CardContent className="p-6">
+          <div className="flex items-start justify-between mb-3">
+            <Badge
+              className={`text-xs ${getCategoryColor(article.category)}`}
+            >
+              {article.category}
+            </Badge>
+            <span className="text-xs text-muted-foreground">
+              {article.readTime}
+            </span>
           </div>
-        </section>
+          <h3 className="font-semibold mb-2">{article.title}</h3>
+          <p className="text-sm text-muted-foreground">
+            {article.description}
+          </p>
+        </CardContent>
+      </Card>
+    ))}
+  </div>
+</section>
+
 
         {/* Emergency Notice */}
         <Card className="mt-12 border-destructive bg-destructive/5">
